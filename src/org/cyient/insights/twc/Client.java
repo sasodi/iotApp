@@ -6,6 +6,9 @@ import com.thingworx.communications.common.SecurityClaims;
 
 /**
  * Created by sriky on 29/3/16.
+ *
+ * Main file that defines client and connects to thingworks.
+ *
  */
 public class Client extends ConnectedThingClient {
     public Client(ClientConfigurator config) throws Exception {
@@ -28,6 +31,19 @@ public class Client extends ConnectedThingClient {
         config.setName("bms");
         // This client is a SDK
         config.setAsSDKType();
+
+        Client client = new Client(config);
+        /* TODO create a list of blocks initialize and bind them. need to use the node and device classes.*/
+
+        try {
+            // Start the client
+            client.start();
+        }
+        catch(Exception eStart) {
+            System.out.println("Initial Start Failed : " + eStart.getMessage());
+        }
+
+        /* TODO loop over all the blocks and collect and set data.*/
 
 
     }
