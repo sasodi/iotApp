@@ -44,9 +44,10 @@ public class Client extends ConnectedThingClient {
 
         IpNetwork network = new IpNetwork("192.168.168.255", 47808, "192.168.168.120");
         Transport transport = new DefaultTransport(network);
-        LocalDevice localDevice = new LocalDevice(23422, transport);
+        LocalDevice localDevice = new LocalDevice(23472, transport);
         List<Node> listOfNodes = new ArrayList<Node>();
-
+        try {
+            localDevice.initialize();
         /* create a list of blocks initialize and bind them. need to use the node and device classes.*/
         /*for each device in the list initiate the node objects*/
         for(int deviceID: Devices.getAsList()) {
@@ -58,10 +59,10 @@ public class Client extends ConnectedThingClient {
             client.bindThing(new Thing(node.getBlockName(),node.getBlockName(),node.getBlockName(),client,node,localDevice));
         }
 
-        try {
+
             // Start the client
             client.start();
-            localDevice.initialize();
+
         }
         catch(Exception eStart) {
             System.out.println("Initial Start Failed : " + eStart.getMessage());

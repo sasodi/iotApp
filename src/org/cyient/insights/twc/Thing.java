@@ -36,6 +36,7 @@ public class Thing extends VirtualThing implements Runnable  {
         super.initializeFromAnnotations();
         this.init();
         this.node = node;
+        this.localDevice = localDevice;
     }
     private void init()
     {
@@ -58,8 +59,8 @@ public class Thing extends VirtualThing implements Runnable  {
         // Update the subscribed properties and events to send any updates to Thingworx
         // Without calling these methods, the property and event updates will not be sent
         // The numbers are timeouts in milliseconds.
-        super.updateSubscribedProperties(1000);
-        super.updateSubscribedEvents(1000);
+        super.updateSubscribedProperties(10000);
+        super.updateSubscribedEvents(10000);
     }
 
     @ThingworxServiceDefinition( name="Shutdown", description="Shutdown the client")
