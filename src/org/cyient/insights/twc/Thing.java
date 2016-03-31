@@ -15,6 +15,8 @@ import com.thingworx.metadata.annotations.ThingworxServiceResult;
 import com.thingworx.metadata.collections.FieldDefinitionCollection;
 import com.thingworx.types.BaseTypes;
 import com.thingworx.types.constants.CommonPropertyNames;
+import com.thingworx.types.primitives.structs.Location;
+import org.joda.time.DateTime;
 
 import java.util.Map;
 
@@ -24,6 +26,8 @@ import java.util.Map;
         @ThingworxPropertyDefinition(name="ratemp", description="Return air Temperature", baseType="NUMBER", category="block", aspects={"isReadOnly:true"}),
         @ThingworxPropertyDefinition(name="satemp", description="Supply air Pressure", baseType="NUMBER", category="block", aspects={"isReadOnly:true"}),
         @ThingworxPropertyDefinition(name="raco2", description="return air co2", baseType="NUMBER", category="block", aspects={"isReadOnly:true"}),
+        @ThingworxPropertyDefinition(name="occur_ts", description="time occured", baseType="DATETIME", category="block", aspects={"isReadOnly:true"}),
+        @ThingworxPropertyDefinition(name="location", description="Where is this block located", baseType="LOCATION", category="block", aspects={"isReadOnly:true"}),
 
 })
 public class Thing extends VirtualThing implements Runnable  {
@@ -31,6 +35,7 @@ public class Thing extends VirtualThing implements Runnable  {
     private Thread _shutdownThread = null;
     private Node node = null;
     private LocalDevice localDevice =null;
+    private Location  locate=  new Location(17.4188203,78.3369446,19.96);
     public Thing(String name, String description, String identifier, ConnectedThingClient client, Node node, LocalDevice localDevice) {
         super(name,description,identifier,client);
         super.initializeFromAnnotations();
@@ -50,10 +55,13 @@ public class Thing extends VirtualThing implements Runnable  {
         this.scanDevice();
     }
     public void scanDevice() throws Exception {
+        DateTime now = DateTime.now();
         values = node.getPresentValues(localDevice);
         super.setProperty("satemp", values.get("sa_temp_1"));
         super.setProperty("ratemp", values.get("ra_temp_1"));
         super.setProperty("raco2", values.get("ra_co2_1"));
+        super.setProperty("occur_ts",now);
+        super.setProperty("location",locate);
         System.out.println("Done settign property");
 
         // Update the subscribed properties and events to send any updates to Thingworx
