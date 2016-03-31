@@ -35,7 +35,7 @@ public class Thing extends VirtualThing implements Runnable  {
     private Thread _shutdownThread = null;
     private Node node = null;
     private LocalDevice localDevice =null;
-    private Location  locate=  new Location(17.4188203,78.3369446,19.96);
+    private Location  locate=  new Location(78.3369446,17.4188203,19.96);
     public Thing(String name, String description, String identifier, ConnectedThingClient client, Node node, LocalDevice localDevice) {
         super(name,description,identifier,client);
         super.initializeFromAnnotations();
@@ -62,7 +62,8 @@ public class Thing extends VirtualThing implements Runnable  {
         super.setProperty("raco2", values.get("ra_co2_1"));
         super.setProperty("occur_ts",now);
         super.setProperty("location",locate);
-        System.out.println("Done settign property");
+        System.out.println(node.getBlockName()+" "+locate.getLongitude()+" "+locate.getLongitude());
+        
 
         // Update the subscribed properties and events to send any updates to Thingworx
         // Without calling these methods, the property and event updates will not be sent
